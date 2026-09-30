@@ -1,0 +1,333 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+    // Sistema Bancário - P1
+    
+    string nomeCliente; // Nome do titular
+    string cpf;         // CPF do titular
+    int numeroConta;    // Número da conta
+    int tipoConta;      // Tipo da conta: 1 = Corrente; 2 = Poupança
+    int opcao;          // Opção do menu
+    double saldo;       // Saldo da conta
+    bool contaAtiva;    // Indica se a conta está ativa
+    
+    int totalContas = 0; // Contador de contas cadastradas
+    char voltarMenu;     // Variável para decisão de voltar ao menu
+    
+    contaAtiva = false;
+    
+    cout << "---------------------------------------------------" << endl;
+    cout << "          SISTEMA BANCARIO - RODRIGO LEITE          " << endl;
+    cout << "---------------------------------------------------" << endl;
+    
+    // Laço de repetição para permitir o uso contínuo do menu
+    do {
+        cout << endl << "--- Menu ---" << endl;
+        cout << "1 - Cadastrar conta" << endl;
+        cout << "2 - Consultar conta" << endl;
+        cout << "3 - Verificar saldo" << endl;
+        cout << "4 - Alterar tipo da conta" << endl;
+        cout << "5 - Ativar/Desativar conta" << endl;
+        cout << "6 - Sair" << endl << endl;
+        
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
+        
+        voltarMenu = 'N';
+        
+        switch (opcao) {
+            
+            // ------------------------------------------------
+            // OPÇÃO 1 - CADASTRAR CONTA
+            // ------------------------------------------------
+            case 1:
+                cout << endl << "Você escolheu '1 - Cadastrar conta'" << endl;
+                
+                // Verifica se já existe uma conta cadastrada
+                if (totalContas == 0) {
+                    
+                    cout << endl << "--- Cadastro da Conta ---" << endl;
+                    
+                    cout << "Informe o nome completo do titular: ";
+                    cin.ignore();
+                    getline(cin, nomeCliente);
+                    
+                    cout << "Informe o CPF do titular: ";
+                    getline(cin, cpf);
+                    
+                    cout << "Informe o número da conta: ";
+                    cin >> numeroConta;
+                    
+                    // Validação do número da conta
+                    do {
+                        if (numeroConta <= 0) {
+                            cout << "Número da conta inválido. Tente novamente." << endl;
+                            cout << "Informe o número da conta: ";
+                            cin >> numeroConta;
+                        }
+                    } while (numeroConta <= 0);
+                    
+                    cout << "Informe o tipo da conta (1 = Corrente; 2 = Poupança): ";
+                    cin >> tipoConta;
+                    
+                    // Validação do tipo da conta
+                    do {
+                        if (tipoConta < 1 || tipoConta > 2) {
+                            cout << "Tipo da conta inválido. Tente novamente." << endl;
+                            cout << "Informe o tipo da conta: ";
+                            cin >> tipoConta;
+                        }
+                    } while (tipoConta < 1 || tipoConta > 2);
+                    
+                    cout << "Informe o saldo inicial da conta (Ex.: 100.35): R$";
+                    cin >> saldo;
+                    
+                    // Validação do saldo
+                    do {
+                        if (saldo < 0) {
+                            cout << "Saldo inicial da conta negativo. Tente novamente." << endl;
+                            cout << "Informe o saldo inicial da conta (Ex.: 100.35): R$";
+                            cin >> saldo;
+                        }
+                    } while (saldo < 0);
+                    
+                    // Após o preenchimento dos dados, a conta é ativada
+                    contaAtiva = true;
+                    totalContas = 1;
+                    
+                    cout << endl;
+                    cout << ">> Conta de " << nomeCliente
+                         << " (Nº " << numeroConta
+                         << ") cadastrada com sucesso! <<" << endl;
+                    
+                }
+                else {
+                    cout << endl;
+                    cout << "Já existe uma conta cadastrada no sistema." << endl;
+                    cout << "O sistema permite apenas uma conta." << endl;
+                }
+                
+                // Pergunta se o usuário deseja retornar ao menu
+                cout << endl << "Você deseja retornar ao menu inicial? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO 2 - CONSULTAR CONTA
+            // ------------------------------------------------
+            case 2:
+                cout << endl << "Você escolheu '2 - Consultar conta'" << endl;
+                
+                // Verifica se existe uma conta cadastrada
+                if (totalContas == 1) {
+                    
+                    cout << endl << "--- Dados da Conta ---" << endl;
+                    cout << "Nome do titular: " << nomeCliente << endl;
+                    cout << "CPF: " << cpf << endl;
+                    cout << "Número da conta: " << numeroConta << endl;
+                    
+                    // Identifica o tipo da conta
+                    if (tipoConta == 1) {
+                        cout << "Tipo da conta: Corrente" << endl;
+                    }
+                    else {
+                        cout << "Tipo da conta: Poupança" << endl;
+                    }
+                    
+                    cout << fixed << setprecision(2);
+                    cout << "Saldo: R$ " << saldo << endl;
+                    
+                    // Identifica a situação da conta
+                    if (contaAtiva == true) {
+                        cout << "Situação: Ativa" << endl;
+                    }
+                    else {
+                        cout << "Situação: Inativa" << endl;
+                    }
+                    
+                }
+                else {
+                    cout << "Nenhuma conta cadastrada." << endl;
+                    cout << "Utilize a opção 1 para cadastrar uma conta." << endl;
+                }
+                
+                cout << endl << "Deseja retornar ao menu inicial? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO 3 - VERIFICAR SALDO
+            // ------------------------------------------------
+            case 3:
+                cout << endl << "Você escolheu '3 - Verificar saldo'" << endl;
+                
+                // Verifica se existe uma conta cadastrada
+                if (totalContas == 1) {
+                    
+                    cout << fixed << setprecision(2);
+                    cout << endl << "Saldo atual: R$ " << saldo << endl;
+                    
+                    // Informa se a conta está ativa ou inativa
+                    if (contaAtiva == true) {
+                        cout << "Situação da conta: Ativa" << endl;
+                    }
+                    else {
+                        cout << "Situação da conta: Inativa" << endl;
+                    }
+                    
+                }
+                else {
+                    cout << "Nenhuma conta cadastrada." << endl;
+                    cout << "Utilize a opção 1 para cadastrar uma conta." << endl;
+                }
+                
+                cout << endl << "Deseja retornar ao menu inicial? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO 4 - ALTERAR TIPO DA CONTA
+            // ------------------------------------------------
+            case 4:
+                cout << endl << "Você escolheu '4 - Alterar tipo da conta'" << endl;
+                
+                // Verifica se existe uma conta cadastrada
+                if (totalContas == 1) {
+                    
+                    cout << endl << "--- Alteração do Tipo da Conta ---" << endl;
+                    
+                    // Mostra o tipo atual da conta
+                    if (tipoConta == 1) {
+                        cout << "Tipo atual: Corrente" << endl;
+                    }
+                    else {
+                        cout << "Tipo atual: Poupança" << endl;
+                    }
+                    
+                    cout << endl;
+                    cout << "Informe o novo tipo da conta (1 = Corrente; 2 = Poupança): ";
+                    cin >> tipoConta;
+                    
+                    // Validação do novo tipo da conta
+                    do {
+                        if (tipoConta < 1 || tipoConta > 2) {
+                            cout << "Tipo da conta inválido. Tente novamente." << endl;
+                            cout << "Informe o novo tipo da conta (1 = Corrente; 2 = Poupança): ";
+                            cin >> tipoConta;
+                        }
+                    } while (tipoConta < 1 || tipoConta > 2);
+                    
+                    cout << endl << "Tipo da conta alterado com sucesso!" << endl;
+                    
+                    // Exibe o novo tipo de conta
+                    if (tipoConta == 1) {
+                        cout << "Novo tipo: Corrente" << endl;
+                    }
+                    else {
+                        cout << "Novo tipo: Poupança" << endl;
+                    }
+                    
+                }
+                else {
+                    cout << "Nenhuma conta cadastrada." << endl;
+                    cout << "Utilize a opção 1 para cadastrar uma conta." << endl;
+                }
+                
+                cout << endl << "Deseja retornar ao menu inicial? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO 5 - ATIVAR/DESATIVAR CONTA
+            // ------------------------------------------------
+            case 5:
+                cout << endl << "Você escolheu '5 - Ativar/Desativar conta'" << endl;
+                
+                // Verifica se existe uma conta cadastrada
+                if (totalContas == 1) {
+                    
+                    cout << endl << "--- Situação da Conta ---" << endl;
+                    
+                    // Exibe a situação atual
+                    if (contaAtiva == true) {
+                        cout << "Situação atual: Ativa" << endl;
+                        
+                        cout << "Deseja desativar a conta? (S/N): ";
+                        char decisao;
+                        cin >> decisao;
+                        
+                        if (decisao == 'S' || decisao == 's') {
+                            contaAtiva = false;
+                            cout << "Conta desativada com sucesso!" << endl;
+                        }
+                        else {
+                            cout << "A conta permanece ativa." << endl;
+                        }
+                    }
+                    else {
+                        cout << "Situação atual: Inativa" << endl;
+                        
+                        cout << "Deseja ativar a conta? (S/N): ";
+                        char decisao;
+                        cin >> decisao;
+                        
+                        if (decisao == 'S' || decisao == 's') {
+                            contaAtiva = true;
+                            cout << "Conta ativada com sucesso!" << endl;
+                        }
+                        else {
+                            cout << "A conta permanece inativa." << endl;
+                        }
+                    }
+                    
+                }
+                else {
+                    cout << "Nenhuma conta cadastrada." << endl;
+                    cout << "Utilize a opção 1 para cadastrar uma conta." << endl;
+                }
+                
+                cout << endl << "Deseja retornar ao menu inicial? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO 6 - SAIR
+            // ------------------------------------------------
+            case 6:
+                cout << endl << "Você escolheu '6 - Sair'" << endl;
+                cout << "Encerrando o sistema..." << endl;
+    
+                break;
+            
+            
+            // ------------------------------------------------
+            // OPÇÃO INVÁLIDA
+            // ------------------------------------------------
+            default:
+                cout << endl << "Opção inválida!" << endl;
+                
+                cout << "Deseja tentar novamente? (S/N): ";
+                cin >> voltarMenu;
+                
+                break;
+        }
+        
+    } while (voltarMenu == 'S' || voltarMenu == 's');
+
+    return 0;
+}
